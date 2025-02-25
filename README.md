@@ -19,8 +19,8 @@ Before you begin, make sure you have the following installed:
 
 1. Clone the repository:
     ```shell
-    git clone https://github.com/<username>/<repo-name>.git
-    cd <repo-name>
+    git clone https://github.com/<username>/sentify.git
+    cd sentify
     ```
 2. Install dependencies:
     ```shell
@@ -28,6 +28,7 @@ Before you begin, make sure you have the following installed:
     ```
 3. Activate the virtual environment:
     ```shell
+    poetry env activate
     poetry shell
     ```
 
