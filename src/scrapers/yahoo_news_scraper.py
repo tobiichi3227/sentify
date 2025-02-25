@@ -109,7 +109,7 @@ def get_news_paragraphs(news_URL: str) -> list[str]:
 
     soup = BeautifulSoup(response.text, "html.parser")
 
-    news_body = soup.select_one(".caas-body")
+    news_body = soup.select_one(".body")
 
     news_paragraphs = []
     if news_body:
@@ -122,6 +122,6 @@ def get_news_paragraphs(news_URL: str) -> list[str]:
                 continue
 
     else:
-        print("No element found with class name: caas-body")
+        print("No element found with class name: body")
 
     return news_paragraphs
