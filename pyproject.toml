@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "Leveraging Sentiment Analysis on News for Stock Market Insights"
+version = "0.1.0"
+description = ""
+authors = ["lifeadventurer <life0adventurer@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "^2.2.2"
+torch = "^2.3.1"
+transformers = "^4.42.4"
+flask = "^3.0.3"
+bs4 = "^0.0.2"
+yfinance = "^0.2.40"
+pre-commit = "^3.7.1"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.5.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 80
+
+[tool.ruff.lint]
+select = [
+  "F",  # pyflakes
+  "E",  # pycodestyle errors
+  "W",  # pycodestyle warnings
+  "I",  # isort
+  "UP", # pyupgrade
+  "B",  # flake8-bugbear
+  "C4", # flake8-comprehensions
+]
+ignore = [
+  "E501", # line too long, handled by black
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

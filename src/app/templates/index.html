@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Sentiment Analysis on News</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+  <div class="container-fluid px-5">
+    <h1 class="text-center mt-3">Sentiment Analysis on News with Stock Market Insights</h1>
+    <div class="row justify-content-center mt-5">
+      <div class="col-8">
+        <form action="/" method="post" class="input-group">
+          <input list="companies" name="company" id="company" class="form-control mx-auto col-4"
+            placeholder="Enter company name or ticker symbol">
+          <button type="submit" class="btn btn-primary col-2">Search</button>
+        </form>
+      </div>
+    </div>
+    <div class="row mt-4">
+      {% if company_exists %}
+      <h1 class="text-center text-primary">{{ company_name }} ({{ ticker_symbol }})</h1>
+      {% else %}
+      <h1 class="text-center text-danger">{{ message }}</h1>
+      {% endif %}
+    </div>
+    {% if company_exists %}
+    <div class="row">
+      <div class="col-7">
+        <div class="card shadow bg-light">
+          <div class="row">
+            <h3 class="col card-title text-center">News</h3>
+          </div>
+          {% for news_item in news %}
+          <div class="row mb-2 mx-1">
+            <div class="accordion">
+              <div class="accordion-item shadow bg-light">
+                <h2 class="accordion-header">
+                  <div class="row collapsed">
+                    <div class="col">
+                      <div class="row">
+                        <div class="col py-1">
+                          <h5 style="margin: 5px">
+                            {{ news_item['news_title'] }}
+                          </h5>
+                        </div>
+                        <div class="col-1 text-end d-flex align-items-center">
+                          <a href="{{ news_item['news_URL'] }}" style="font-size: 1.2rem;">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <h6 style="margin: 5px">
+                            {{ news_item['how_long_ago'] }}
+                          </h6>
+                        </div>
+                        <div class="col">
+                          {% set label = news_item['overall_sentiment_score']['label'] %}
+                          {% if label == 'Positive' %}
+                          {% set button_style = 'success' %}
+                          {% elif label == 'Neutral' %}
+                          {% set button_style = 'warning' %}
+                          {% else %}
+                          {% set button_style = 'danger' %}
+                          {% endif %}
+                          <button type="button" class="btn btn-outline-{{ button_style }} border-0" style="margin-top: -20px;">
+                            <div class="row">
+                              <i class="col-2 bi bi-circle-fill"></i>
+                              <div class="col">
+                                <strong>
+                                  {{ news_item['overall_sentiment_score']['label'] +
+                                  news_item['overall_sentiment_score']['score'] }}
+                                </strong>
+                              </div>
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-2">
+                      <button class="accordion-button h-100" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#news_{{ loop.index }}" aria-expanded="false"
+                        aria-controls="news_{{ loop.index }}">
+                      </button>
+                    </div>
+                  </div>
+                </h2>
+                <div class="accordion-collapse collapse" id="news_{{ loop.index }}">
+                  <div class="accordion-body">
+                    <div class="row">
+                      <div class="col-3">
+                        <h6 style="padding: 6.75px; white-space: nowrap;">
+                          Sentiment Scores
+                        </h6>
+                      </div>
+                      <div class="col">
+                        <button type="button" class="btn btn-outline-success border-0">
+                          <div class="row">
+                            <i class="col-2 bi bi-circle-fill"></i>
+                            <div class="col">Positive</div>
+                          </div>
+                        </button>
+                        <button type="button" class="btn btn-outline-warning border-0">
+                          <div class="row">
+                            <i class="col-2 bi bi-circle-fill"></i>
+                            <div class="col">Neutral</div>
+                          </div>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger border-0">
+                          <div class="row">
+                            <i class="col-2 bi bi-circle-fill"></i>
+                            <div class="col">Negative</div>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                    {% for paragraph in news_item['paragraphs'] %}
+                    <p style="margin-top: 10px !important; margin-bottom: 0px !important;">{{ paragraph['content'] }}
+                    </p>
+                    <div class="row">
+                      <div class="col d-flex justify-content-end">
+                        <button type="button" class="btn btn-outline-success border-0">
+                          <div class="row">
+                            <i class="col-2 bi bi-circle-fill"></i>
+                            <div class="col">{{ paragraph['positive_score'] }}</div>
+                          </div>
+                        </button>
+                        <button type="button" class="btn btn-outline-warning border-0">
+                          <div class="row">
+                            <i class="col-2 bi bi-circle-fill"></i>
+                            <div class="col">{{ paragraph['neutral_score'] }}</div>
+                          </div>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger border-0">
+                          <div class="row">
+                            <i class="col-2 bi bi-circle-fill"></i>
+                            <div class="col">{{ paragraph['negative_score'] }}</div>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="row">
+          <div class="card shadow bg-light">
+            <div class="row">
+              <h3 class="col card-title text-center">Recommended Actions</h3>
+            </div>
+            <div class="row font-weight-bold">
+              <div class="col d-flex align-items-center justify-content-center">
+                {% if recommended_action == 'Buy' %}
+                  <div class="text-success display-4">BUY</div>
+                {% elif recommended_action == 'Hold' %}
+                  <div class="text-warning display-4">HOLD</div>
+                {% else %}
+                  <div class="text-danger display-4">SELL</div>
+                {% endif %}
+              </div>
+              {% if recommended_action != 'Hold' %}
+              <div class="col d-flex align-items-center justify-content-center">
+                <div class="display-6">
+                  Confidence Index: {{ confidence_index }}
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="card shadow bg-light">
+            <div class="row">
+              <h3 class="col card-title text-center">Stock Prices Chart</h3>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <div class="tradingview-widget-container">
+                  <div class="tradingview-widget-container__widget"></div>
+                  <script type="text/javascript"
+                    src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                      {
+                        "width": "100%",
+                        "height": "610",
+                        "symbol": "{{ ticker_symbol }}",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "light",
+                        "style": "1",
+                        "locale": "en",
+                        "allow_symbol_change": true,
+                        "calendar": false,
+                        "support_host": "https://www.tradingview.com"
+                      }
+                    </script>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
