@@ -33,6 +33,10 @@ def get_overall_sentiment_score(
     paragraphs_with_sentiment_scores: list[dict],
 ) -> tuple[str, float, float]:
     paragraph_count = len(paragraphs_with_sentiment_scores)
+
+    if paragraph_count == 0:
+        return NEUTRAL, 0.0, 0.0
+
     positive_score_sum, neutral_score_sum, negative_score_sum = 0.0, 0.0, 0.0
     for item in paragraphs_with_sentiment_scores:
         positive_score = float(item["positive_score"])
