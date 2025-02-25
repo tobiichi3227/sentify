@@ -5,6 +5,10 @@ from bs4 import BeautifulSoup
 from config.config import TIMESTAMP_FORMAT, UTC_DIFFERENCE
 from utils import data
 
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+}
+
 
 def get_news_URLs(
     ticker_symbol: str,
@@ -28,7 +32,7 @@ def get_news_URLs(
             "serviceConfig": {"s": [f"{ticker_symbol}"]},
         }
 
-        response = requests.post(API_URL, json=payload)
+        response = requests.post(API_URL, json=payload, headers=headers)
 
         if response.status_code == 200:
             streams = response.json()["data"]["tickerStream"]["stream"]
@@ -98,11 +102,6 @@ def get_news_URLs(
         reverse=True,
     )
     return sorted_news_URLs
-
-
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-}
 
 
 def get_news_paragraphs(news_URL: str) -> list[str]:
