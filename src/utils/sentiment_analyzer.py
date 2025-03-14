@@ -1,6 +1,7 @@
 import torch
-from config.constants import NEGATIVE, NEUTRAL, POSITIVE
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+from config.constants import NEGATIVE, NEUTRAL, POSITIVE
 
 tokenizer = AutoTokenizer.from_pretrained("marcev/financebert")
 model = AutoModelForSequenceClassification.from_pretrained("marcev/financebert")

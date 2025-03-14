@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
 
-from config.config import NEWS_LOOKBACK_DAYS, TIMESTAMP_FORMAT
 from flask import Flask, render_template, request
+
+from config.config import NEWS_LOOKBACK_DAYS, TIMESTAMP_FORMAT
 from scrapers import yahoo_news_scraper
 from utils import action, data, sentiment_analyzer, time
 
