@@ -19,7 +19,7 @@ Before you begin, make sure you have the following installed:
 
 1. Clone the repository:
     ```shell
-    git clone https://github.com/<username>/sentify.git
+    git clone https://github.com/LifeAdventurer/sentify.git
     cd sentify
     ```
 2. Install dependencies:
@@ -36,8 +36,8 @@ Before you begin, make sure you have the following installed:
 
 1. Clone the repository:
     ```shell
-    git clone https://github.com/<username>/<repo-name>.git
-    cd <repo-name>
+    git clone https://github.com/LifeAdventurer/sentify.git
+    cd sentify
     ```
 2. Create and activate a virtual environment:
     ```shell
@@ -60,7 +60,7 @@ python src/main.py
 
 To configure the application, update the `config.py` file in the `src/config` directory. Key parameters include:
 ```
-TOP_COMPANIES_COUNT = 100
+TOP_COMPANIES_COUNT = 10000
 TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 UTC_DIFFERENCE = 8
 NEWS_LOOKBACK_DAYS = 1
