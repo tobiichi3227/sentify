@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 
 import requests
 from bs4 import BeautifulSoup
-from bs4.element import NavigableString, Tag
 
 from config.config import TIMESTAMP_FORMAT, UTC_DIFFERENCE
 from utils import data
@@ -115,16 +114,10 @@ def get_news_paragraphs(news_URL: str) -> list[str]:
 
     news_paragraphs = []
     if news_body:
-        for child in news_body.children:
-            paragraph_text = ""
-            if isinstance(child, Tag) and child.name == "p":
-                paragraph_text = child.get_text().strip()
-
-            elif isinstance(child, NavigableString):
-                paragraph_text = child.strip()
-
-            if paragraph_text:
-                news_paragraphs.append(paragraph_text)
+        for child in news_body.select("p"):
+            text = child.get_text().strip()
+            if text:
+                news_paragraphs.append(text)
 
     else:
         print("No element found with class name: body")
