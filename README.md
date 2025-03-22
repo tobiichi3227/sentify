@@ -70,6 +70,7 @@ NEWS_LOOKBACK_DAYS = 1
 - `TIMESTAMP_FORMAT`: The format for timestamps used in the application, especially for the news API.
 - `UTC_DIFFERENCE`: The difference in hours between local time and UTC.
 - `NEWS_LOOKBACK_DAYS`: The number of days to look back when fetching news articles.
+- `CPU_COUNT`: The number of CPUs to be used for multiprocessing.
 
 ## LICENSE
 

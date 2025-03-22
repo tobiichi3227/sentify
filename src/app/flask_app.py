@@ -1,10 +1,9 @@
-import multiprocessing
 from datetime import datetime, timedelta
 from multiprocessing import Pool
 
 from flask import Flask, render_template, request
 
-from config.config import NEWS_LOOKBACK_DAYS, TIMESTAMP_FORMAT
+from config.config import CPU_COUNT, NEWS_LOOKBACK_DAYS, TIMESTAMP_FORMAT
 from scrapers import yahoo_news_scraper
 from utils import action, data, sentiment_analyzer, time
 
@@ -99,7 +98,7 @@ def create_app() -> Flask:
                 for news_item in news:
                     args.append((news_item, current_timestamp))
 
-                with Pool(multiprocessing.cpu_count()) as pool:
+                with Pool(CPU_COUNT) as pool:
                     results = pool.starmap(calculate_paragraph_score, args)
                 for index, result in enumerate(results):
                     result_news, sentiment_scores_of_new = result
