@@ -26,8 +26,8 @@ def calculate_paragraph_score(news_item, current_timestamp):
             }
         )
 
-    new = {}
-    new["paragraphs"] = paragraphs_with_sentiment_scores
+    news = {}
+    news["paragraphs"] = paragraphs_with_sentiment_scores
 
     current_time_seconds = time.convert_timestamp_to_seconds(
         TIMESTAMP_FORMAT, current_timestamp
@@ -41,7 +41,7 @@ def calculate_paragraph_score(news_item, current_timestamp):
         how_long_ago = time.format_time_difference(
             current_time_seconds - publish_time_seconds
         )
-        new["how_long_ago"] = how_long_ago
+        news["how_long_ago"] = how_long_ago
 
         # News overall sentiment score
         (
@@ -52,7 +52,7 @@ def calculate_paragraph_score(news_item, current_timestamp):
             paragraphs_with_sentiment_scores
         )
 
-        new["overall_sentiment_score"] = {
+        news["overall_sentiment_score"] = {
             "label": sentiment_label,
             "score": f"{highest_sentiment_score: .3f}",
         }
@@ -62,7 +62,7 @@ def calculate_paragraph_score(news_item, current_timestamp):
             "corresponding_score": corresponding_sentiment_score,
         }
 
-    return (new, sentiment_scores_of_new)
+    return (news, sentiment_scores_of_new)
 
 
 def create_app() -> Flask:
@@ -102,8 +102,8 @@ def create_app() -> Flask:
                 with Pool(multiprocessing.cpu_count()) as pool:
                     results = pool.starmap(calculate_paragraph_score, args)
                 for index, result in enumerate(results):
-                    new, sentiment_scores_of_new = result
-                    news[index].update(new)
+                    result_news, sentiment_scores_of_new = result
+                    news[index].update(result_news)
                     if sentiment_scores_of_new:
                         sentiment_scores_of_news.append(sentiment_scores_of_new)
 
