@@ -30,7 +30,10 @@ def get_news_URLs(
                     "tickerStream": {"pagination": {"uuids": uuid}}
                 }
             },
-            "serviceConfig": {"s": [f"{ticker_symbol}"]},
+            "serviceConfig": {
+                "s": [f"{ticker_symbol}"],
+                "snippetCount": 5000,
+            },
         }
 
         response = requests.post(API_URL, json=payload, headers=headers)
