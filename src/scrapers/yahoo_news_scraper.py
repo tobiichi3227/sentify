@@ -31,7 +31,7 @@ def get_news_URLs(
                 }
             },
             "serviceConfig": {
-                "s": [f"{ticker_symbol}"],
+                "s": [ticker_symbol],
                 "snippetCount": 5000,
             },
         }
