@@ -66,6 +66,7 @@ TOP_COMPANIES_COUNT = 10000
 TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 UTC_DIFFERENCE = 8
 NEWS_LOOKBACK_DAYS = 1
+CPU_COUNT = 2
 ```
 
 - `TOP_COMPANIES_COUNT`: The number of top companies ranked by market cap to search.
